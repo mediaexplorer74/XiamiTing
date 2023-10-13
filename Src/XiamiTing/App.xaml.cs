@@ -63,7 +63,7 @@ namespace JacobC.Xiami
             // long-running startup tasks go here
             //await Task.Delay(5000);
 
-            //自定义代码段
+            //Custom code segment
             SetTitleColor();
             PlaybackService.Instance.StartBackgroundAudioTask();
 
@@ -86,8 +86,8 @@ namespace JacobC.Xiami
         }
 
         /// <summary>
-        /// 设置窗口标题栏的样式
-        /// <!--此段代码为自定义-->
+        /// Set the style of the window title bar
+        /// <!--This code is custom-->
         /// </summary>
         private void SetTitleColor()
         {
@@ -95,17 +95,17 @@ namespace JacobC.Xiami
             Color theme = (Color)(Resources["ThemeColor"]);
             Color inactive = (Color)(Resources["InactiveThemeColor"]);
             Color hover = (Color)(Resources["HighlightThemeColor"]);
-            //活动色
+            //Active color
             titlebar.BackgroundColor = theme;
             titlebar.ForegroundColor = Colors.White;
             titlebar.ButtonBackgroundColor = theme;
             titlebar.ButtonForegroundColor = Colors.White;
-            //非活动色
+            //Inactive color
             titlebar.InactiveBackgroundColor = inactive;
             titlebar.InactiveForegroundColor = Colors.White;
             titlebar.ButtonInactiveBackgroundColor = inactive;
             titlebar.ButtonInactiveForegroundColor = Colors.White;
-            //事件色
+            //Event color
             titlebar.ButtonHoverBackgroundColor = hover;
             titlebar.ButtonHoverForegroundColor = Colors.White;
             titlebar.ButtonPressedBackgroundColor = inactive;

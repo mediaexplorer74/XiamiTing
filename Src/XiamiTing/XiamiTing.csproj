@@ -9,18 +9,20 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JacobC.Xiami</RootNamespace>
     <AssemblyName>XiamiTing</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>XiamiTing_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>XiamiTing_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>C6B29CEA20B7ADF550A5E95FE1893FBDF8DC7E18</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>770AFE40C41EA87D9E5215C65A025DB107A28B01</PackageCertificateThumbprint>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,10 +96,6 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <UseDotNetNativeSharedAssemblyFrameworkPackage>false</UseDotNetNativeSharedAssemblyFrameworkPackage>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -188,8 +186,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
-    <None Include="XiamiTing_StoreKey.pfx" />
-    <None Include="XiamiTing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BadgeLogo.scale-100.png" />
@@ -256,6 +252,7 @@
     <Content Include="Assets\Square310x310Logo.scale-150.png" />
     <Content Include="Assets\Square310x310Logo.scale-125.png" />
     <Content Include="Assets\Square310x310Logo.scale-100.png" />
+    <None Include="XiamiTing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -356,6 +353,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Strings\en-US\" />
     <Folder Include="Strings\en\" />
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +365,14 @@
       <Project>{e94e3312-8c4b-42b1-b05c-201591a0c9be}</Project>
       <Name>SharedLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="Template10">
+      <Version>1.1.12</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

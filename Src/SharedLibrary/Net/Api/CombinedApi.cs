@@ -14,7 +14,7 @@ namespace JacobC.Xiami.Net
         private CombinedApi() { }
         static CombinedApi _instance;
         /// <summary>
-        /// 获取<see cref="CombinedApi"/>的唯一实例
+        /// get only example of <see cref="CombinedApi"/> 
         /// </summary>
         public static CombinedApi Instance
         {
@@ -25,7 +25,7 @@ namespace JacobC.Xiami.Net
             }
         }
 
-        //专辑信息比较复杂，只考虑Web
+        // Album information is more complicated, only consider the Web
         public IAsyncAction GetAlbumInfo(AlbumModel album, bool cover = false)
         {
             return Run(async (c) =>
@@ -39,7 +39,8 @@ namespace JacobC.Xiami.Net
             throw new NotImplementedException();
         }
 
-        //TODO: 对比获取的歌曲信息，减少重复获取开支，尤其是几个IEnumerable。可以考虑WebApi的cover均为true
+        //TODO: Compare the acquired song information to reduce repeated acquisition expenses,
+        //especially several IEnumerable.You can consider that WebAPI cover is true
         public IAsyncAction GetSongInfo(SongModel song, bool cover = false)
         {
             return Run(async (c) =>

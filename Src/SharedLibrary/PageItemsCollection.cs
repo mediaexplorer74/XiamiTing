@@ -9,35 +9,41 @@ using static System.Runtime.InteropServices.WindowsRuntime.AsyncInfo;
 namespace JacobC.Xiami
 {
     /// <summary>
-    /// 按页面加载项目的增量集合
+    /// Load an incremental collection of items by page
     /// </summary>
-    /// <typeparam name="T">集合项目类型</typeparam>
+    /// <typeparam name="T">Collection item type</typeparam>
     public class PageItemsCollection<T> : IncrementalLoadingBase<T>
     {
-        public delegate Task<IEnumerable<T>> FetchPageDelegate(uint pageIndex, CancellationToken token);
+        public delegate Task<IEnumerable<T>> FetchPageDelegate(
+            uint pageIndex, CancellationToken token);
 
         FetchPageDelegate _fetchPage;
         bool _hasMore = true;
-        uint _current = 1;//当前页码
+        uint _current = 1;//Current page number
 
         public uint PageCapacity { get; set; }
 
         /// <summary>
-        /// 根据已有的完整第一页内容获取一个<see cref="PageItemsCollection{T}"/>对象
+        /// Get one based on the existing complete first page 
+        /// content <see cref="PageItemsCollection{T}"/> object
         /// </summary>
-        /// <param name="firstpage">完整的第一页的内容，请确保之后的数目与该页数目一致</param>
-        /// <param name="fetchPage">获取某一页的方法</param>
-        public PageItemsCollection(IEnumerable<T> firstpage, FetchPageDelegate fetchPage) : base(firstpage)
+        /// <param name="firstpage">For the complete content of the first page, 
+        /// please make sure that the number after that is the same as the number of pages</param>
+        /// <param name="fetchPage">How to get a page</param>
+        public PageItemsCollection(IEnumerable<T> firstpage, FetchPageDelegate fetchPage)
+            : base(firstpage)
         {
-            //AddRange(firstpage); //已在base(firstpage中实现)
+            //AddRange(firstpage); //Already in base(firstpage in implementation)
             PageCapacity = (uint)Count;
             _fetchPage = fetchPage;
         }
+
         /// <summary>
-        /// 指定每页项目数量获取一个<see cref="PageItemsCollection{T}"/>对象，并且获取第一页 
+        /// Specify the number of items per page to get 
+        /// one <see cref="PageItemsCollection{T}"/> object, and get the first page
         /// </summary>
-        /// <param name="capacity">每一页项目数量</param>
-        /// <param name="fetchPage">获取某一页的方法</param>
+        /// <param name="capacity">Number of items per page</param>
+        /// <param name="fetchPage">How to get a page</param>
         public PageItemsCollection(uint capacity, FetchPageDelegate fetchPage) : base()
         {
             PageCapacity = capacity;
@@ -45,19 +51,22 @@ namespace JacobC.Xiami
             _GetFirst();
         }
         /// <summary>
-        /// 指定每页项目数量获取一个<see cref="PageItemsCollection{T}"/>对象，并写入第一页的部分内容
+        /// Specify the number of items per page to get 
+        /// one <see cref="PageItemsCollection{T}"/> object, 
+        /// and write part of the content of the first page
         /// </summary>
-        /// <param name="capacity">每一页项目数量</param>
-        /// <param name="firstpart">第一页的部分内容</param>
-        /// <param name="fetchpage">获取某一页的方法</param>
-        public PageItemsCollection(uint capacity, IEnumerable<T> firstpart, FetchPageDelegate fetchpage):base(firstpart)
+        /// <param name="capacity">Number of items per page</param>
+        /// <param name="firstpart">Part of the first page</param>
+        /// <param name="fetchpage">How to get a page</param>
+        public PageItemsCollection(uint capacity, 
+            IEnumerable<T> firstpart, FetchPageDelegate fetchpage) : base(firstpart)
         {
             //AddRange(firstpart);
             PageCapacity = capacity;
             _fetchPage = fetchpage;
         }
         /// <summary>
-        /// 获取固定大小的<see cref="PageItemsCollection{T}"/>
+        /// Get a fixed size <see cref="PageItemsCollection{T}"/>
         /// </summary>
         /// <param name="items"></param>
         public PageItemsCollection(IEnumerable<T> items):base(items)
@@ -84,12 +93,13 @@ namespace JacobC.Xiami
             return _hasMore;
         }
 
-        protected override async Task<IEnumerable<T>> LoadMoreItemsAsync(CancellationToken c, uint count)
+        protected override async Task<IEnumerable<T>> LoadMoreItemsAsync(
+            CancellationToken c, uint count)
         {
             var returnlist = new List<T>();
             if (Count < PageCapacity)
             {
-                //针对第一页未满的情况
+                //For situations where the first page is not full
                 var r = await _fetchPage(1, c);
                 var tc = Count;
                 var sc = Count;
@@ -114,7 +124,10 @@ namespace JacobC.Xiami
             if (count % PageCapacity != 0) pages++;
             for (uint i = _current + 1; i <= pages && _hasMore; i++)
             {
-                var r = await _fetchPage(i, c);//为了保证顺序，不使用并发.TODO: 考虑并发后排序？
+                var r = await _fetchPage(i, c);
+                // In order to ensure order, concurrency is not used.
+                // TODO: Consider ordering after concurrency?
+                
                 //if (i == pages)
                 if (r == null)
                     _hasMore = false;

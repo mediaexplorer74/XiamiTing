@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -10,8 +11,9 @@ using Windows.UI.Xaml.Data;
 
 namespace JacobC.Xiami
 {
-    //需要用到增量加载的内容：歌手的歌曲列表，评论，排行榜等
-    public abstract class IncrementalLoadingBase<T> : ObservableCollection<T>, IIncrementalLoadingCollection<T>, ISupportIncrementalLoading
+    //Content that needs to be loaded incrementally: singer's song list, comments, leaderboard, etc.
+    public abstract class IncrementalLoadingBase<T> : ObservableCollection<T>, 
+        IIncrementalLoadingCollection<T>, ISupportIncrementalLoading
     {
         public IncrementalLoadingBase() : base() { }
         public IncrementalLoadingBase(IEnumerable<T> collection) : base(collection) { }
@@ -25,7 +27,9 @@ namespace JacobC.Xiami
         {
             if (_busy)
             {
-                throw new InvalidOperationException("Only one operation in flight at a time");
+                //throw new InvalidOperationException("Only one operation in flight at a time");
+                Debug.WriteLine("[ex] LoadMoreItemsAsync: "
+                    + "Only one operation in flight at a time");
             }
             _busy = true;
             return AsyncInfo.Run((c) => LoadMoreItemsInternal(c, count));
@@ -35,13 +39,13 @@ namespace JacobC.Xiami
         {
             try
             {
-                // 加载开始事件
+                // Load start event
                 OnLoadMoreStarted?.Invoke(this, count);
                 
                 var items = await LoadMoreItemsAsync(c, count);
                 AddRange(items);
 
-                // 加载完成事件
+                // Loading completion event
                 OnLoadMoreCompleted?.Invoke(this, (uint)(items?.Count() ?? 0));
                 
                 return new LoadMoreItemsResult { Count = (uint)(items?.Count() ?? 0) };

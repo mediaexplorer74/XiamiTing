@@ -7,7 +7,7 @@ using Template10.Mvvm;
 namespace JacobC.Xiami
 {
     /// <summary>
-    /// 保证属性更改强制执行的<see cref="BindableBase"/>
+    /// Guarantee that attribute changes are enforced<see cref="BindableBase"/>
     /// </summary>
     public class SafeBindableBase : BindableBase
     {
@@ -15,7 +15,7 @@ namespace JacobC.Xiami
         {
             try
             {
-                // 当WindowWrapper.Dispatcher不存在时会抛出NullReferenceException
+                // when WindowWrapper.Dispatcher will be thrown when it does not exist NullReferenceException
                 base.RaisePropertyChanged(propertyName);
             }
             catch (NullReferenceException ne)
@@ -31,7 +31,7 @@ namespace JacobC.Xiami
         {
             try
             {
-                // 当WindowWrapper.Dispatcher不存在时会抛出NullReferenceException
+                // when WindowWrapper.Dispatcher will be thrown when it does not exist NullReferenceException
                 base.RaisePropertyChanged<T>(propertyExpression);
             }
             catch (NullReferenceException ne)
